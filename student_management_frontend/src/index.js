@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import Homepage from './Homepage';
+import AddStudent from './AddStudent';
 
 // Simple hash-based router; extends routing when more pages are added.
 function Router() {
@@ -14,10 +15,15 @@ function Router() {
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
 
+  // After success on AddStudent, navigate to dashboard.
+  function handleNavToDashboard() {
+    window.location.hash = "#/dashboard";
+  }
+
   // Route mappings
   if (!route || route === "/") return <Homepage />;
   if (route === "/dashboard" || route === "/students") return <App />;
-  if (route === "/add") return <App />; // For now, re-use App; later split to AddPage
+  if (route === "/add") return <AddStudent onSuccessNav={handleNavToDashboard} />;
   // 404
   return (
     <div style={{
