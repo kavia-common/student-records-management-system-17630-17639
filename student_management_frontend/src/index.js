@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import Homepage from './Homepage';
 import AddStudent from './AddStudent';
+import ViewStudents from './ViewStudents';
 
 // Simple hash-based router; extends routing when more pages are added.
 function Router() {
@@ -15,15 +16,16 @@ function Router() {
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
 
-  // After success on AddStudent, navigate to dashboard.
   function handleNavToDashboard() {
     window.location.hash = "#/dashboard";
   }
 
   // Route mappings
   if (!route || route === "/") return <Homepage />;
-  if (route === "/dashboard" || route === "/students") return <App />;
-  if (route === "/add") return <AddStudent onSuccessNav={handleNavToDashboard} />;
+  if (route === "/dashboard" || route === "/students")
+    return <ViewStudents />;
+  if (route === "/add")
+    return <AddStudent onSuccessNav={handleNavToDashboard} />;
   // 404
   return (
     <div style={{
