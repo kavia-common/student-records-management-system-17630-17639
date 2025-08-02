@@ -6,6 +6,8 @@ import Homepage from './Homepage';
 import AddStudent from './AddStudent';
 import ViewStudents from './ViewStudents';
 import EditStudent from './EditStudent';
+import NavBar from './NavBar';
+import Analytics from './Analytics';
 
 // Simple hash-based router with route params parsing.
 function Router() {
@@ -31,6 +33,8 @@ function Router() {
     return <ViewStudents />;
   if (route === "/add")
     return <AddStudent onSuccessNav={handleNavToDashboard} />;
+  if (route === "/analytics")
+    return <Analytics />;
   if (route.startsWith("/edit/") && params && params.id)
     return <EditStudent studentId={params.id} onSuccessNav={handleNavToDashboard} />;
   // 404
@@ -69,6 +73,7 @@ function getRouteParams(hash) {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <NavBar />
     <Router />
   </React.StrictMode>
 );
