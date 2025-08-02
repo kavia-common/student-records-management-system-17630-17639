@@ -1,0 +1,4 @@
+{
+    "command": "npm run test",
+    "working_directory": "/home/kavia/workspace/code-generation/student-records-management-system-17630-17639/student_management_frontend"
+}
