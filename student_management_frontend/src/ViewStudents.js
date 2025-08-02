@@ -93,8 +93,13 @@ function ViewStudents({ onEdit, onDelete }) {
 
   // Handle action button events (Edit, Delete)
   const handleEdit = (student) => {
-    if (onEdit) onEdit(student);
-    setActionStatus({ type: "", message: "" });
+    // If onEdit is provided, use that, else navigate to edit page
+    if (onEdit) {
+      onEdit(student);
+      setActionStatus({ type: "", message: "" });
+    } else if (student && student.id) {
+      window.location.hash = `#/edit/${student.id}`;
+    }
   };
   const handleDelete = async (student) => {
     if (!window.confirm(`Delete student "${student.name}"?`)) return;

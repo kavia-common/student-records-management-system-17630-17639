@@ -5,13 +5,18 @@ import App from './App';
 import Homepage from './Homepage';
 import AddStudent from './AddStudent';
 import ViewStudents from './ViewStudents';
+import EditStudent from './EditStudent';
 
-// Simple hash-based router; extends routing when more pages are added.
+// Simple hash-based router with route params parsing.
 function Router() {
   const [route, setRoute] = React.useState(() => getRoute(window.location.hash));
+  const [params, setParams] = React.useState(() => getRouteParams(window.location.hash));
 
   React.useEffect(() => {
-    const onHash = () => setRoute(getRoute(window.location.hash));
+    const onHash = () => {
+      setRoute(getRoute(window.location.hash));
+      setParams(getRouteParams(window.location.hash));
+    };
     window.addEventListener("hashchange", onHash);
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
@@ -26,6 +31,8 @@ function Router() {
     return <ViewStudents />;
   if (route === "/add")
     return <AddStudent onSuccessNav={handleNavToDashboard} />;
+  if (route.startsWith("/edit/") && params && params.id)
+    return <EditStudent studentId={params.id} onSuccessNav={handleNavToDashboard} />;
   // 404
   return (
     <div style={{
@@ -44,10 +51,20 @@ function Router() {
   );
 }
 
+// Helper to parse route and route params from hash (only ONE definition)
 function getRoute(hash) {
-  // E.g. "#/dashboard?a=1" => "/dashboard"
   return hash ? hash.replace(/^#/, '').split(/[?&]/)[0] : "/";
 }
+function getRouteParams(hash) {
+  const h = hash ? hash.replace(/^#/, '').split(/[?&]/)[0] : "";
+  const match = h.match(/^\/edit\/([a-zA-Z0-9_\-]+)$/);
+  if (match) {
+    return { id: match[1] };
+  }
+  return {};
+}
+
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
