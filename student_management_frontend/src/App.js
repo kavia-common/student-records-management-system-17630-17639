@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
+import DeleteConfirmationModal from "./DeleteConfirmationModal";
 
 // Helper: API endpoint; adjust if needed for deployment
 const API_BASE = "http://localhost:3001";
@@ -21,6 +22,10 @@ function App() {
   const [editId, setEditId] = useState(null);
   const [feedback, setFeedback] = useState({ type: "", message: "" });
   const [loading, setLoading] = useState(false);
+
+  // Modal: track student to delete
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [studentToDelete, setStudentToDelete] = useState(null);
 
   // Sorting and filtering
   const [sortBy, setSortBy] = useState("name");
@@ -146,13 +151,21 @@ function App() {
   };
 
   // PUBLIC_INTERFACE
-  // Delete a student
-  const handleDeleteClick = async (student) => {
-    if (!window.confirm(`Delete student "${student.name}"?`)) return;
+  // Trigger delete: show modal
+  const handleDeleteClick = (student) => {
+    setStudentToDelete(student);
+    setDeleteModalOpen(true);
+    setFeedback({ type: "", message: "" });
+  };
+
+  // Handle actual confirm (after modal confirmed)
+  const confirmDeleteStudent = async () => {
+    if (!studentToDelete) return;
     setLoading(true);
+    setDeleteModalOpen(false);
     setFeedback({ type: "", message: "" });
     try {
-      const res = await fetch(`${API_BASE}/students/${student.id}`, {
+      const res = await fetch(`${API_BASE}/students/${studentToDelete.id}`, {
         method: "DELETE",
       });
       const data = await res.json();
@@ -162,8 +175,15 @@ function App() {
     } catch (err) {
       setFeedback({ type: "error", message: err.message });
     } finally {
+      setStudentToDelete(null);
       setLoading(false);
     }
+  };
+
+  // Handle modal close/cancel
+  const handleDeleteCancel = () => {
+    setDeleteModalOpen(false);
+    setStudentToDelete(null);
   };
 
   // Unique class values for filter dropdown
@@ -532,6 +552,13 @@ function App() {
       >
         Student Management System &nbsp; | &nbsp; Modern Minimal UI
       </footer>
+      {/* Delete Confirmation Modal */}
+      <DeleteConfirmationModal
+        open={deleteModalOpen}
+        onCancel={handleDeleteCancel}
+        onConfirm={confirmDeleteStudent}
+        studentName={studentToDelete ? studentToDelete.name : ""}
+      />
     </div>
   );
 }
