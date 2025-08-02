@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
 
-// Helper: API endpoint; adjust if needed for deployment
-const API_BASE = "http://localhost:3001";
+/**
+ * API endpoint base - set from environment variable for deployment.
+ */
+const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:3001";
 
 // Theme palette
 const COLOR_PRIMARY = "#1976d2";
