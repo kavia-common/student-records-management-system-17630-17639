@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, useLocation } from "react-router-dom";
 
 /**
  * PUBLIC_INTERFACE
@@ -35,12 +36,30 @@ const itemStyle = {
 };
 
 function NavBar() {
+  const { pathname } = useLocation();
+  const routes = [
+    { path: "/", label: "Home" },
+    { path: "/dashboard", label: "Dashboard" },
+    { path: "/add", label: "Add Student" },
+    { path: "/analytics", label: "Analytics" },
+  ];
+
   return (
     <nav style={navStyle}>
-      <a href="#/" style={itemStyle}>Home</a>
-      <a href="#/dashboard" style={itemStyle}>Dashboard</a>
-      <a href="#/add" style={itemStyle}>Add Student</a>
-      <a href="#/analytics" style={itemStyle}>Analytics</a>
+      {routes.map((route) => (
+        <Link
+          key={route.path}
+          to={route.path}
+          style={{
+            ...itemStyle,
+            background: pathname === route.path ? "rgba(255,255,255,0.13)" : "transparent",
+            color: "#fff",
+            textDecoration: "none",
+          }}
+        >
+          {route.label}
+        </Link>
+      ))}
     </nav>
   );
 }

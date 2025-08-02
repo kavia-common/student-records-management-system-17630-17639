@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 /**
  * PUBLIC_INTERFACE
@@ -67,7 +68,7 @@ function Homepage() {
         }}
       >
         <NavBtn
-          to="#/dashboard"
+          to="/dashboard"
           label="Admin Dashboard"
           style={{
             background: "var(--button-bg)",
@@ -75,7 +76,7 @@ function Homepage() {
           }}
         />
         <NavBtn
-          to="#/add"
+          to="/add"
           label="Add New Student"
           style={{
             background: "#ffc107",
@@ -91,12 +92,12 @@ function Homepage() {
 }
 
 /**
- * Minimal navigational button component for anchor links
+ * Minimal navigational button component for links
  */
 function NavBtn({ to, label, style }) {
   return (
-    <a
-      href={to}
+    <Link
+      to={to}
       style={{
         display: "inline-block",
         padding: "13px 32px",
@@ -116,7 +117,7 @@ function NavBtn({ to, label, style }) {
       tabIndex={0}
     >
       {label}
-    </a>
+    </Link>
   );
 }
 
