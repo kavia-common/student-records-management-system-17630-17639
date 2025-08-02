@@ -53,6 +53,56 @@
   position: relative;
 }
 
+/* --- Minimalism tweaks for Student Management UI --- */
+.input {
+  font-size: 1rem;
+  padding: 8.5px 12px;
+  border: 1px solid #d4d7da;
+  border-radius: 7px;
+  background: #fff;
+  color: #262b2e;
+  outline: none;
+  transition: box-shadow 0.18s, border 0.19s;
+  width: 100%;
+  margin-top: 2px;
+  box-sizing: border-box;
+}
+.input:focus {
+  border: 1.5px solid #1976d2;
+  box-shadow: 0 2px 6px #1976d22a;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+}
+
+table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+th, td {
+  border: none;
+}
+
+@media (max-width: 600px) {
+  .input {
+    font-size: 15px;
+    padding: 8px 7px;
+  }
+}
+
 .App-link {
   color: var(--text-secondary);
   transition: color 0.3s ease;
